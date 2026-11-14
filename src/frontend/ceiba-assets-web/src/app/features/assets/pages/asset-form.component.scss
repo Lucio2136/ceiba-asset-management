@@ -18,3 +18,10 @@
   justify-content: flex-end;
   gap: 8px;
 }
+
+.location-hint {
+  grid-column: 1 / -1;
+  margin: 4px 0 12px;
+  color: var(--mat-sys-on-surface-variant);
+  font: var(--mat-sys-body-medium);
+}

@@ -35,6 +35,27 @@ export const ASSET_STATUS_LABELS: Record<AssetStatus, string> = {
   Retired: 'Dado de baja',
 };
 
+export const ASSET_IDENTIFIER_KINDS = [
+  'SerialNumber',
+  'AssetTag',
+  'MacAddress',
+  'Imei',
+  'HostName',
+  'PhoneExtension',
+  'Other',
+] as const;
+export type AssetIdentifierKind = (typeof ASSET_IDENTIFIER_KINDS)[number];
+
+export const ASSET_IDENTIFIER_KIND_LABELS: Record<AssetIdentifierKind, string> = {
+  SerialNumber: 'Número de serie',
+  AssetTag: 'Etiqueta de activo',
+  MacAddress: 'Dirección MAC',
+  Imei: 'IMEI',
+  HostName: 'Nombre de equipo',
+  PhoneExtension: 'Extensión telefónica',
+  Other: 'Otro',
+};
+
 /** Fila del inventario (`AssetListItemDto`). */
 export interface AssetSummary {
   id: string;
@@ -51,17 +72,42 @@ export interface AssetSummary {
   assignedToName?: string | null;
 }
 
-export interface AssetDetail extends AssetSummary {
+export interface AssetIdentifier {
+  id: string;
+  kind: AssetIdentifierKind;
+  value: string;
+  isPrimary: boolean;
+}
+
+export interface CurrentAssignment {
+  id: string;
+  assetId: string;
+  responsiblePersonId: string;
+  responsiblePersonName: string;
+  assignedAtUtc: string;
+  returnedAtUtc?: string | null;
+  assignedByUserId?: string | null;
   notes?: string | null;
+}
+
+/** Detalle (`AssetDto`). No incluye assignedTo* de la lista. */
+export interface AssetDetail {
+  id: string;
+  name: string;
+  assetType: AssetType;
+  status: AssetStatus;
+  manufacturer?: string | null;
+  model?: string | null;
+  serialNumber?: string | null;
+  notes?: string | null;
+  locationId?: string | null;
+  locationName?: string | null;
+  locationPath?: string | null;
   createdAtUtc: string;
   updatedAtUtc: string;
   rowVersion: string;
-  currentAssignment?: {
-    responsiblePersonId: string;
-    responsiblePersonName: string;
-    assignedAtUtc: string;
-    notes?: string | null;
-  } | null;
+  identifiers: AssetIdentifier[];
+  currentAssignment?: CurrentAssignment | null;
 }
 
 export interface AssetListQuery {
@@ -81,8 +127,9 @@ export interface SaveAssetRequest {
   model?: string | null;
   serialNumber?: string | null;
   notes?: string | null;
+  /** Solo en alta. En edición la ubicación se cambia con Mover. */
   locationId?: string | null;
-  /** Obligatorio en actualización. */
+  status?: AssetStatus | null;
   rowVersion?: string;
 }
 

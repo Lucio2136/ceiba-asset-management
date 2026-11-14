@@ -70,26 +70,31 @@ export class AssetFormComponent {
   });
 
   private rowVersion: string | undefined;
+  protected readonly currentLocationLabel = signal<string | null>(null);
 
   protected readonly form = inject(FormBuilder).nonNullable.group({
     name: ['', [Validators.required, Validators.maxLength(200)]],
     assetType: [null as AssetType | null, [Validators.required]],
+    manufacturer: ['', [Validators.maxLength(100)]],
+    model: ['', [Validators.maxLength(100)]],
     serialNumber: ['', [Validators.maxLength(100)]],
     locationId: [null as string | null],
     notes: ['', [Validators.maxLength(2000)]],
   });
 
   constructor() {
-    // Al cargar el activo en modo edición, el formulario se rellena una vez.
     effect(() => {
       if (!this.asset.hasValue()) {
         return;
       }
       const asset = this.asset.value();
       this.rowVersion = asset.rowVersion;
+      this.currentLocationLabel.set(asset.locationPath || asset.locationName || null);
       this.form.reset({
         name: asset.name,
         assetType: asset.assetType,
+        manufacturer: asset.manufacturer ?? '',
+        model: asset.model ?? '',
         serialNumber: asset.serialNumber ?? '',
         locationId: asset.locationId ?? null,
         notes: asset.notes ?? '',
@@ -107,9 +112,11 @@ export class AssetFormComponent {
     const request: SaveAssetRequest = {
       name: value.name.trim(),
       assetType: value.assetType as AssetType,
+      manufacturer: value.manufacturer?.trim() || null,
+      model: value.model?.trim() || null,
       serialNumber: value.serialNumber?.trim() || null,
       notes: value.notes?.trim() || null,
-      locationId: value.locationId,
+      locationId: this.isEdit() ? undefined : value.locationId,
       rowVersion: this.rowVersion,
     };
 

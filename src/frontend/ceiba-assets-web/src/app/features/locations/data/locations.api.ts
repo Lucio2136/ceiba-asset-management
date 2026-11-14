@@ -18,8 +18,14 @@ export class LocationsApi {
     if (query.buildingId) {
       params = params.set('buildingId', query.buildingId);
     }
-    if (query.floor !== undefined) {
-      params = params.set('floor', query.floor);
+    if (query.floorId) {
+      params = params.set('floorId', query.floorId);
+    }
+    if (query.search) {
+      params = params.set('search', query.search);
+    }
+    if (query.includeInactive) {
+      params = params.set('includeInactive', 'true');
     }
     return this.http.get<Location[]>(this.baseUrl, { params });
   }

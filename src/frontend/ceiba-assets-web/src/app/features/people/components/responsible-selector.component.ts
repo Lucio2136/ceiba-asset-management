@@ -63,8 +63,12 @@ export class ResponsibleSelectorComponent implements ControlValueAccessor {
   readonly label = input('Responsable');
   readonly required = input(false);
 
-  protected readonly people = rxResource({ stream: () => this.api.list() });
-  protected readonly options = computed(() => (this.people.hasValue() ? this.people.value() : []));
+  protected readonly people = rxResource({
+    stream: () => this.api.list({ page: 1, pageSize: 100 }),
+  });
+  protected readonly options = computed(() =>
+    this.people.hasValue() ? this.people.value().items : [],
+  );
   protected readonly value = signal<string | null>(null);
   protected readonly disabled = signal(false);
 

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
@@ -26,11 +26,16 @@ import { PeopleApi } from '../data/people.api';
 export class PeoplePageComponent {
   private readonly api = inject(PeopleApi);
 
-  protected readonly columns = ['displayName', 'email', 'department'];
+  protected readonly columns = ['employeeNumber', 'displayName', 'email', 'department'];
   protected readonly filters = signal<DataFilterValue>({ search: '', selections: {} });
 
   protected readonly people = rxResource({
     params: () => ({ search: this.filters().search }),
-    stream: ({ params }) => this.api.list(params.search),
+    stream: ({ params }) =>
+      this.api.list({ search: params.search || undefined, page: 1, pageSize: 100 }),
   });
+
+  protected readonly items = computed(() =>
+    this.people.hasValue() ? this.people.value().items : [],
+  );
 }

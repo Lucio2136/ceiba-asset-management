@@ -65,11 +65,11 @@ export class AssetsApi {
     return this.http.post<AssetDetail>(this.baseUrl, {
       assetType: request.assetType,
       name: request.name,
-      manufacturer: request.manufacturer,
-      model: request.model,
-      serialNumber: request.serialNumber,
-      notes: request.notes,
-      locationId: request.locationId,
+      manufacturer: request.manufacturer ?? null,
+      model: request.model ?? null,
+      serialNumber: request.serialNumber ?? null,
+      notes: request.notes ?? null,
+      locationId: request.locationId ?? null,
     });
   }
 
@@ -77,10 +77,11 @@ export class AssetsApi {
     return this.http.put<AssetDetail>(`${this.baseUrl}/${encodeURIComponent(id)}`, {
       assetType: request.assetType,
       name: request.name,
-      manufacturer: request.manufacturer,
-      model: request.model,
-      serialNumber: request.serialNumber,
-      notes: request.notes,
+      manufacturer: request.manufacturer ?? null,
+      model: request.model ?? null,
+      serialNumber: request.serialNumber ?? null,
+      notes: request.notes ?? null,
+      status: request.status ?? null,
       rowVersion: request.rowVersion,
     });
   }

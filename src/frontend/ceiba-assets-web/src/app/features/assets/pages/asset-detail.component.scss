@@ -34,3 +34,31 @@ table {
 .back-link {
   margin-block-start: 16px;
 }
+
+.identifiers-title {
+  margin-block: 20px 8px;
+}
+
+.identifiers {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.identifier-kind {
+  color: var(--mat-sys-on-surface-variant);
+  margin-inline-end: 8px;
+}
+
+.identifier-value {
+  font-family: ui-monospace, monospace;
+}
+
+.identifier-primary {
+  margin-inline-start: 8px;
+  font: var(--mat-sys-label-small);
+  color: var(--mat-sys-primary);
+}

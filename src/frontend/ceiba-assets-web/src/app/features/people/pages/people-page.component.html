@@ -8,7 +8,7 @@
 
   <div class="filters">
     <ceiba-data-filters
-      searchLabel="Buscar por nombre, correo o área"
+      searchLabel="Buscar por nombre, correo, número o área"
       [value]="filters()"
       (valueChange)="filters.set($event)"
     />
@@ -26,8 +26,7 @@
     } @else if (people.error(); as error) {
       <ceiba-error-state [error]="error" (retry)="people.reload()" />
     } @else if (people.hasValue()) {
-      @let items = people.value();
-      @if (items.length === 0) {
+      @if (items().length === 0) {
         <ceiba-empty-state
           title="Sin responsables"
           [message]="
@@ -37,7 +36,12 @@
           "
         />
       } @else {
-        <table mat-table [dataSource]="items" aria-label="Listado de responsables">
+        <table mat-table [dataSource]="items()" aria-label="Listado de responsables">
+          <ng-container matColumnDef="employeeNumber">
+            <th mat-header-cell *matHeaderCellDef>N.º empleado</th>
+            <td mat-cell *matCellDef="let person">{{ person.employeeNumber }}</td>
+          </ng-container>
+
           <ng-container matColumnDef="displayName">
             <th mat-header-cell *matHeaderCellDef>Nombre</th>
             <td mat-cell *matCellDef="let person">{{ person.displayName }}</td>

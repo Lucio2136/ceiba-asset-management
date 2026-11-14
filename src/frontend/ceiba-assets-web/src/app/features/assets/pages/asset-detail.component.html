@@ -49,25 +49,38 @@
         <dl class="details">
           <dt>Tipo</dt>
           <dd>{{ typeLabels[item.assetType] }}</dd>
+          <dt>Fabricante</dt>
+          <dd>{{ item.manufacturer || '—' }}</dd>
+          <dt>Modelo</dt>
+          <dd>{{ item.model || '—' }}</dd>
           <dt>Número de serie</dt>
           <dd>{{ item.serialNumber || '—' }}</dd>
           <dt>Ubicación</dt>
           <dd>{{ item.locationPath || item.locationName || 'Sin ubicación' }}</dd>
           <dt>Responsable</dt>
-          <dd>
-            {{
-              item.currentAssignment?.responsiblePersonName || item.assignedToName || 'Sin asignar'
-            }}
-          </dd>
+          <dd>{{ item.currentAssignment?.responsiblePersonName || 'Sin asignar' }}</dd>
           <dt>Notas</dt>
           <dd>{{ item.notes || '—' }}</dd>
           <dt>Creado</dt>
           <dd>{{ item.createdAtUtc | date: 'medium' }}</dd>
-          @if (item.updatedAtUtc) {
-            <dt>Actualizado</dt>
-            <dd>{{ item.updatedAtUtc | date: 'medium' }}</dd>
-          }
+          <dt>Actualizado</dt>
+          <dd>{{ item.updatedAtUtc | date: 'medium' }}</dd>
         </dl>
+
+        @if (item.identifiers.length > 0) {
+          <h3 class="section-title identifiers-title">Identificadores</h3>
+          <ul class="identifiers">
+            @for (identifier of item.identifiers; track identifier.id) {
+              <li>
+                <span class="identifier-kind">{{ identifierLabel(identifier.kind) }}</span>
+                <span class="identifier-value">{{ identifier.value }}</span>
+                @if (identifier.isPrimary) {
+                  <span class="identifier-primary">Principal</span>
+                }
+              </li>
+            }
+          </ul>
+        }
       </mat-card-content>
     </mat-card>
 

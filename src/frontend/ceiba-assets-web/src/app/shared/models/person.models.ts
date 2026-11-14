@@ -10,3 +10,10 @@ export interface Responsible {
   department?: string | null;
   isActive: boolean;
 }
+
+export interface ResponsibleListQuery {
+  search?: string;
+  includeInactive?: boolean;
+  page?: number;
+  pageSize?: number;
+}

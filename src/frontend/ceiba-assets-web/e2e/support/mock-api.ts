@@ -2,10 +2,9 @@ import { Page, Route } from '@playwright/test';
 
 export const testUser = {
   id: 'u-1',
-  userName: 'ana',
-  displayName: 'Ana Pérez',
   email: 'ana@ceiba.test',
-  roles: ['Admin'],
+  displayName: 'Ana Pérez',
+  roles: ['Administrator'],
 };
 
 export const validPassword = 'Correcta-123';
@@ -14,7 +13,7 @@ export const assets = [
   {
     id: 'a-1',
     name: 'Laptop Dell Latitude',
-    type: 'Laptop',
+    assetType: 'Laptop',
     status: 'Assigned',
     serialNumber: 'DL-0001',
     locationId: 'l-1',
@@ -25,7 +24,7 @@ export const assets = [
   {
     id: 'a-2',
     name: 'Monitor LG 27',
-    type: 'Monitor',
+    assetType: 'Monitor',
     status: 'Available',
     serialNumber: 'LG-0042',
     locationId: 'l-2',
@@ -36,7 +35,7 @@ export const assets = [
   {
     id: 'a-3',
     name: 'Servidor Ecommerce',
-    type: 'Server',
+    assetType: 'Computer',
     status: 'InMaintenance',
     serialNumber: null,
     locationId: 'l-3',
@@ -80,7 +79,7 @@ export async function mockApi(
   );
 
   await page.route('**/api/v1/auth/login', (route) => {
-    const body = route.request().postDataJSON() as { password?: string };
+    const body = route.request().postDataJSON() as { email?: string; password?: string };
     if (body.password === validPassword) {
       authenticated = true;
       return route.fulfill({ json: testUser });

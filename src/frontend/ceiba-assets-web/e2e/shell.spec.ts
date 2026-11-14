@@ -24,7 +24,7 @@ test.describe('Autenticación', () => {
     api = await mockApi(page);
     await page.goto('/login');
 
-    await page.getByLabel('Usuario').fill(testUser.userName);
+    await page.getByLabel('Correo').fill(testUser.email);
     await page.getByLabel('Contraseña').fill('incorrecta');
     await page.getByRole('button', { name: 'Entrar' }).click();
 
@@ -36,7 +36,7 @@ test.describe('Autenticación', () => {
     api = await mockApi(page);
     await page.goto('/login');
 
-    await page.getByLabel('Usuario').fill(testUser.userName);
+    await page.getByLabel('Correo').fill(testUser.email);
     await page.getByLabel('Contraseña').fill(validPassword);
     await page.getByRole('button', { name: 'Entrar' }).click();
 

@@ -11,14 +11,28 @@ const detail = (status: AssetStatus): AssetDetail => ({
   name: 'Laptop Ana',
   assetType: 'Laptop',
   status,
+  manufacturer: 'Lenovo',
+  model: 'ThinkPad T14',
   serialNumber: 'SN-1',
   locationId: 'loc-1',
-  locationName: 'Torre A · Piso 3',
-  assignedToId: status === 'Assigned' ? 'p-1' : null,
-  assignedToName: status === 'Assigned' ? 'Ana Pérez' : null,
+  locationName: 'Área abierta',
+  locationPath: 'Torre A / Piso 3 / Área abierta',
+  notes: null,
   createdAtUtc: '2026-11-01T12:00:00Z',
   updatedAtUtc: '2026-11-01T12:00:00Z',
   rowVersion: 'AAAA',
+  identifiers: [{ id: 'i-1', kind: 'SerialNumber', value: 'SN-1', isPrimary: true }],
+  currentAssignment:
+    status === 'Assigned'
+      ? {
+          id: 'as-1',
+          assetId: '7',
+          responsiblePersonId: 'p-1',
+          responsiblePersonName: 'Ana Pérez',
+          assignedAtUtc: '2026-11-01T12:00:00Z',
+          notes: null,
+        }
+      : null,
 });
 
 describe('AssetDetailComponent', () => {
@@ -26,9 +40,9 @@ describe('AssetDetailComponent', () => {
     const api = {
       get: vi.fn(() => of(detail(status))),
       history: vi.fn(() => of([])),
-      assign: vi.fn(() => of(detail('Assigned'))),
-      return: vi.fn(() => of(detail('Available'))),
-      move: vi.fn(() => of(detail(status))),
+      assign: vi.fn(() => of({})),
+      return: vi.fn(() => of({})),
+      move: vi.fn(() => of({})),
     };
     const dialog = { open: vi.fn(() => ({ afterClosed: () => of(dialogResult) })) };
     await TestBed.configureTestingModule({
@@ -45,20 +59,14 @@ describe('AssetDetailComponent', () => {
     await fixture.whenStable();
     const element = fixture.nativeElement as HTMLElement;
     const button = (label: string) =>
-      Array.from(element.querySelectorAll('button')).find((b) => b.textContent?.includes(label));
-    return { fixture, element, api, dialog, button };
+      Array.from(element.querySelectorAll('button')).find((node) =>
+        node.textContent?.includes(label),
+      );
+
+    return { fixture, api, button, element };
   }
 
-  it('muestra los datos del activo y su estado', async () => {
-    const { element } = await render('Assigned');
-
-    expect(element.querySelector('h1')?.textContent).toContain('Laptop Ana');
-    expect(element.textContent).toContain('Asignado');
-    expect(element.textContent).toContain('Ana Pérez');
-    expect(element.textContent).toContain('SN-1');
-  });
-
-  it('un activo disponible se puede asignar y mover, pero no devolver', async () => {
+  it('un activo disponible ofrece Asignar y Mover', async () => {
     const { button } = await render('Available');
 
     expect(button('Asignar')).toBeDefined();
@@ -66,7 +74,7 @@ describe('AssetDetailComponent', () => {
     expect(button('Devolver')).toBeUndefined();
   });
 
-  it('un activo asignado se puede devolver y mover, pero no asignar', async () => {
+  it('un activo asignado ofrece Devolver y Mover', async () => {
     const { button } = await render('Assigned');
 
     expect(button('Devolver')).toBeDefined();

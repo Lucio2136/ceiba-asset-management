@@ -23,9 +23,11 @@ import { EmptyStateComponent } from '../../../shared/components/empty-state/empt
 import { ErrorStateComponent } from '../../../shared/components/error-state/error-state.component';
 import { StatusBadgeComponent } from '../../../shared/components/status-badge/status-badge.component';
 import {
+  ASSET_IDENTIFIER_KIND_LABELS,
   ASSET_TYPE_LABELS,
   ASSIGNMENT_EVENT_LABELS,
   AssetDetail,
+  AssetIdentifierKind,
   AssignAssetRequest,
   AssignmentEventKind,
   MoveAssetRequest,
@@ -74,6 +76,10 @@ export class AssetDetailComponent {
 
   protected readonly typeLabels = ASSET_TYPE_LABELS;
   protected readonly historyColumns = ['when', 'kind', 'responsible', 'location', 'notes'];
+
+  protected identifierLabel(kind: AssetIdentifierKind): string {
+    return ASSET_IDENTIFIER_KIND_LABELS[kind] ?? kind;
+  }
 
   protected readonly asset = rxResource({
     params: () => this.id(),

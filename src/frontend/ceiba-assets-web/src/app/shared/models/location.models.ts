@@ -10,6 +10,14 @@ export interface Building {
   isActive: boolean;
 }
 
+export interface Floor {
+  id: string;
+  buildingId: string;
+  levelNumber: number;
+  name: string;
+  isActive: boolean;
+}
+
 export interface Location {
   id: string;
   floorId: string;
@@ -26,5 +34,7 @@ export interface Location {
 
 export interface LocationListQuery {
   buildingId?: string;
-  floor?: number;
+  floorId?: string;
+  search?: string;
+  includeInactive?: boolean;
 }

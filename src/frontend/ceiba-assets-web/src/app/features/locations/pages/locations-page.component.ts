@@ -5,14 +5,15 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { of } from 'rxjs';
 import { BuildingsApi } from '../../buildings/data/buildings.api';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
 import { ErrorStateComponent } from '../../../shared/components/error-state/error-state.component';
 import { LocationsApi } from '../data/locations.api';
 
 /**
- * Ubicaciones filtradas por edificio y piso. La URL (`?buildingId=&floor=`) es la fuente de
- * verdad, así los filtros se pueden compartir y los enlaces de la página de edificios funcionan.
+ * Ubicaciones filtradas por edificio y piso. La URL (`?buildingId=&floorId=`) es la fuente
+ * de verdad para compartir filtros y enlaces desde la página de edificios.
  */
 @Component({
   selector: 'ceiba-locations-page',
@@ -35,9 +36,9 @@ export class LocationsPageComponent {
 
   // Query params enlazados por `withComponentInputBinding`.
   readonly buildingId = input<string>();
-  readonly floor = input<string>();
+  readonly floorId = input<string>();
 
-  protected readonly columns = ['building', 'floor', 'name', 'code'];
+  protected readonly columns = ['building', 'floor', 'name', 'code', 'description'];
 
   protected readonly buildings = rxResource({ stream: () => this.buildingsApi.list() });
 
@@ -45,33 +46,33 @@ export class LocationsPageComponent {
     this.buildings.hasValue() ? this.buildings.value() : [],
   );
 
-  protected readonly floorNumber = computed(() => {
-    const raw = this.floor();
-    const parsed = raw === undefined || raw === '' ? NaN : Number(raw);
-    return Number.isInteger(parsed) ? parsed : undefined;
+  protected readonly floors = rxResource({
+    params: () => this.buildingId() || undefined,
+    stream: ({ params }) => (params ? this.buildingsApi.floors(params) : of([])),
   });
 
-  protected readonly floorOptions = computed(() => {
-    const building = this.buildingList().find((b) => b.id === this.buildingId());
-    return building ? Array.from({ length: building.levelCount }, (_, i) => i + 1) : [];
-  });
+  protected readonly floorOptions = computed(() =>
+    this.floors.hasValue() ? this.floors.value() : [],
+  );
 
   protected readonly locations = rxResource({
-    params: () => ({ buildingId: this.buildingId() || undefined, floor: this.floorNumber() }),
+    params: () => ({
+      buildingId: this.buildingId() || undefined,
+      floorId: this.floorId() || undefined,
+    }),
     stream: ({ params }) => this.locationsApi.list(params),
   });
 
   protected selectBuilding(buildingId: string): void {
-    // Cambiar de edificio invalida el piso seleccionado.
     void this.router.navigate([], {
-      queryParams: { buildingId: buildingId || null, floor: null },
+      queryParams: { buildingId: buildingId || null, floorId: null },
       queryParamsHandling: 'merge',
     });
   }
 
-  protected selectFloor(floor: number | ''): void {
+  protected selectFloor(floorId: string): void {
     void this.router.navigate([], {
-      queryParams: { floor: floor === '' ? null : floor },
+      queryParams: { floorId: floorId || null },
       queryParamsHandling: 'merge',
     });
   }

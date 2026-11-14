@@ -5,8 +5,7 @@
         {{ isEdit() ? 'Editar activo' : 'Nuevo activo' }}
       </h1>
       <p class="page-subtitle">
-        El estado, el responsable y la ubicación cambian con las acciones Asignar, Devolver y Mover
-        del detalle.
+        El responsable y la ubicación se cambian con Asignar, Devolver y Mover en el detalle.
       </p>
     </div>
     <div class="page-actions">
@@ -50,11 +49,29 @@
           </mat-form-field>
 
           <mat-form-field>
+            <mat-label>Fabricante</mat-label>
+            <input matInput formControlName="manufacturer" maxlength="100" />
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Modelo</mat-label>
+            <input matInput formControlName="model" maxlength="100" />
+          </mat-form-field>
+
+          <mat-form-field>
             <mat-label>Número de serie</mat-label>
             <input matInput formControlName="serialNumber" maxlength="100" />
           </mat-form-field>
 
-          <ceiba-location-selector formControlName="locationId" [allowEmpty]="true" />
+          @if (isEdit()) {
+            <p class="location-hint">
+              Ubicación actual:
+              <strong>{{ currentLocationLabel() || 'Sin ubicación' }}</strong>. Para cambiarla usa
+              <em>Mover</em> en el detalle.
+            </p>
+          } @else {
+            <ceiba-location-selector formControlName="locationId" [allowEmpty]="true" />
+          }
 
           <mat-form-field class="full-width">
             <mat-label>Notas</mat-label>

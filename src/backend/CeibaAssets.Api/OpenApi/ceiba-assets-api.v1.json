@@ -1,0 +1,54 @@
+{
+  "x-generator": "NSwag v14.8.0.0 (NJsonSchema v11.6.2.0 (Newtonsoft.Json v13.0.0.0))",
+  "openapi": "3.0.0",
+  "info": {
+    "title": "CEIBA Asset Management API",
+    "version": "v1"
+  },
+  "paths": {
+    "/v1/system/info": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "summary": "Obtiene el nombre y la versión de la API.",
+        "operationId": "System_GetInfo",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SystemInfoResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SystemInfoResponse": {
+        "type": "object",
+        "description": "Identificación pública de la API.",
+        "additionalProperties": false,
+        "required": [
+          "applicationName",
+          "version"
+        ],
+        "properties": {
+          "applicationName": {
+            "type": "string",
+            "description": "Nombre del producto."
+          },
+          "version": {
+            "type": "string",
+            "description": "Versión semántica de la API."
+          }
+        }
+      }
+    }
+  }
+}

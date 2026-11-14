@@ -1,0 +1,9 @@
+# Controles rápidos antes de cada commit. Compilación completa, pruebas y E2E se ejecutan
+# con los comandos de verificación y en CI.
+
+(cd src/frontend/ceiba-assets-web && npx --no-install lint-staged)
+
+staged_cs=$(git diff --cached --name-only --diff-filter=ACMR -- '*.cs')
+if [ -n "$staged_cs" ]; then
+  dotnet format whitespace --folder --verify-no-changes --include $staged_cs
+fi

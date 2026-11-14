@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\src\backend\CeibaAssets.Api\CeibaAssets.Api.csproj" />
+    <ProjectReference Include="..\..\..\src\backend\CeibaAssets.Application\CeibaAssets.Application.csproj" />
+    <ProjectReference Include="..\..\..\src\backend\CeibaAssets.Contracts\CeibaAssets.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\src\backend\CeibaAssets.Domain\CeibaAssets.Domain.csproj" />
+    <ProjectReference Include="..\..\..\src\backend\CeibaAssets.Infrastructure\CeibaAssets.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\..\src\backend\CeibaAssets.SyncWorker\CeibaAssets.SyncWorker.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

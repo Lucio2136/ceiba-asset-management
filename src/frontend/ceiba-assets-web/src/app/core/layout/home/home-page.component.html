@@ -1,0 +1,49 @@
+<section class="page" aria-labelledby="home-title">
+  <header class="page-header">
+    <h1 id="home-title" class="page-title">Inicio</h1>
+    <p class="page-subtitle">
+      Administración, descubrimiento, conciliación y auditoría de los activos tecnológicos de CEIBA
+      Torre A, CEIBA Torre B y CEIBA Ecommerce.
+    </p>
+  </header>
+
+  <mat-card appearance="outlined" class="status-card">
+    <mat-card-header>
+      <div mat-card-avatar class="status-card-avatar">
+        <svg lucideServer [size]="20"></svg>
+      </div>
+      <mat-card-title>Estado de la plataforma</mat-card-title>
+      <mat-card-subtitle>Conectividad con la API</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      @if (systemInfo.isLoading()) {
+        <div class="status" role="status">
+          <mat-progress-spinner mode="indeterminate" diameter="20" aria-hidden="true" />
+          <span>Consultando la API…</span>
+        </div>
+      } @else if (systemInfo.error()) {
+        <div class="status status-error" role="alert">
+          <svg lucideCircleExclamationPoint></svg>
+          <span>No fue posible contactar la API. Verifica que el servicio esté disponible.</span>
+        </div>
+        <button matButton="outlined" type="button" (click)="systemInfo.reload()">
+          <svg lucideRefreshCw></svg>
+          Reintentar
+        </button>
+      } @else if (systemInfo.hasValue()) {
+        @let info = systemInfo.value();
+        <div class="status status-ok" role="status">
+          <svg lucideCircleCheck></svg>
+          <span>API operativa</span>
+        </div>
+        <dl class="status-details">
+          <dt>Aplicación</dt>
+          <dd>{{ info.applicationName }}</dd>
+          <dt>Versión</dt>
+          <dd>{{ info.version }}</dd>
+        </dl>
+      }
+    </mat-card-content>
+  </mat-card>
+</section>

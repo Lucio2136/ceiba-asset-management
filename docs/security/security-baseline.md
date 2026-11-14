@@ -10,6 +10,20 @@
 - Configuración segura por defecto: lo que no está habilitado de forma explícita queda cerrado.
 - Los secretos nunca se versionan.
 
+## Exposición a internet
+
+La aplicación se publicará en la web pública ([ADR-0011](../adr/0011-publicacion-en-internet.md)).
+En consecuencia:
+
+- Solo los puertos 443 y 80 (redirección y validación del certificado) quedan abiertos a
+  internet. SQL Server, el escritorio remoto y la administración remota permanecen cerrados.
+- Swagger UI y cualquier herramienta de diagnóstico se deshabilitan fuera de Development.
+- El inicio de sesión se protege contra fuerza bruta y enumeración de cuentas (bloqueo temporal,
+  rate limiting específico y mensajes genéricos). La autenticación multifactor para cuentas
+  privilegiadas se evaluará en la Fase 3.
+- Aunque todos los datos son ficticios, el acceso al inventario sigue requiriendo autenticación y
+  autorización.
+
 ## Clasificación de datos
 
 | Datos                                    | Clasificación  | Tratamiento                                    |

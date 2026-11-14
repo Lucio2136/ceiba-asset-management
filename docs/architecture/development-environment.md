@@ -29,7 +29,7 @@ Después se agregaron, a nivel de usuario, la carpeta de instalación al `PATH` 
 
 | Herramienta       | Fase | Motivo                                                                 |
 | ----------------- | ---- | ---------------------------------------------------------------------- |
-| SQL Server 2025 (Developer o Express) | 2 | Base de datos local; su instalación requiere permisos de administrador |
+| SQL Server 2025 Express | 2 | Base de datos local, misma edición que el servidor ([ADR-0011](../adr/0011-publicacion-en-internet.md)); requiere permisos de administrador |
 | PowerShell 7 y Pester 5 | 7 | Agente y sus pruebas                                                  |
 | GitHub CLI (opcional) | — | Crear pull requests desde la terminal                                |
 | IIS y Hosting Bundle  | 10 | Servidor de laboratorio Windows Server 2025                           |

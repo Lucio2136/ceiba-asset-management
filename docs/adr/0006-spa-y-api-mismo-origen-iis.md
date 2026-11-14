@@ -11,8 +11,8 @@ configuración de CSP más amplia.
 
 ## Decisión
 
-- Un sitio de IIS con enlace HTTPS (nombre ficticio de ejemplo: `assets.ceiba.internal`) sirve la
-  SPA como archivos estáticos en la raíz.
+- Un sitio de IIS con enlace HTTPS (dominio público por definir, ver ADR-0011) sirve la SPA como
+  archivos estáticos en la raíz.
 - La API se publica como **aplicación hija en `/api`** del mismo sitio, con su propio grupo de
   aplicaciones ("No Managed Code") y el ASP.NET Core Module en modo in-process.
 - La regla de reescritura de la SPA (fallback a `index.html`) excluye `/api`, y la aplicación

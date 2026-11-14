@@ -28,8 +28,9 @@ Monolito modular ([ADR-0002](docs/adr/0002-monolito-modular-windows-iis.md)):
 - **CeibaAssets.SyncWorker**, Windows Service para la sincronización de solo lectura con InvGate.
 - **Agente PowerShell 7** para el descubrimiento en equipos Windows.
 
-Sin contenedores ni microservicios. Ver [arquitectura](docs/architecture/overview.md) y
-[diagramas](docs/diagrams/architecture.md).
+Sin contenedores ni microservicios. La aplicación se publicará en internet
+([ADR-0011](docs/adr/0011-publicacion-en-internet.md)). Ver [arquitectura](docs/architecture/overview.md)
+y [diagramas](docs/diagrams/architecture.md).
 
 ## Estructura del repositorio
 
@@ -58,7 +59,7 @@ Sin contenedores ni microservicios. Ver [arquitectura](docs/architecture/overvie
 | npm             | 11                         | Frontend                                 |
 | Git             | 2.9 o superior             | Control de versiones y hooks (`core.hooksPath`) |
 | Microsoft Edge  | Actual                     | Pruebas E2E                              |
-| SQL Server 2025 | Developer o Express        | Desde la Fase 2                          |
+| SQL Server 2025 | Express                    | Desde la Fase 2                          |
 | PowerShell      | 7.x                        | Desde la Fase 7 (agente y Pester)        |
 
 Detalles y configuración inicial en

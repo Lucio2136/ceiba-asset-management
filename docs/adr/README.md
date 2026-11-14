@@ -16,6 +16,7 @@ decisión: se reemplaza con uno nuevo que lo referencia.
 | [0008](0008-calidad-y-pruebas.md)                     | Herramientas de calidad y estrategia de pruebas              | Aceptada                       |
 | [0009](0009-versiones-y-dependencias.md)              | Política de versiones y dependencias                         | Aceptada                       |
 | [0010](0010-observabilidad-y-errores.md)              | Observabilidad y manejo de errores                           | Aceptada                       |
+| [0011](0011-publicacion-en-internet.md)               | Publicación de la aplicación en internet                     | Aceptada                       |
 
 ## Decisiones pendientes
 
@@ -25,6 +26,8 @@ Estas decisiones se tomarán cuando exista la información necesaria; no deben a
 | -------------------------------------------------------------------- | ---- | ---------------------------------------------- |
 | Autenticación del agente: certificado de cliente o credenciales de máquina | 7    | Modelo de amenazas del agente documentado      |
 | Control de concurrencia expuesto en la API (rowversion como ETag o campo) | 2    | Primer recurso editable                         |
+| Proveedor de hospedaje y dominio público                             | 10   | Elección del responsable del proyecto          |
+| Repositorio en GitHub: visibilidad y licencia                        | —    | Decisión del responsable del proyecto          |
 | Migración a Microsoft Entra ID con OpenID Connect                    | —    | Confirmación de un tenant empresarial          |
 | Cobertura de código y análisis con SonarQube                         | 11   | Servidor SonarQube y token disponibles         |
 | Internacionalización                                                 | —    | Requisito multidioma confirmado                |

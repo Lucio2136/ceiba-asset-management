@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <GenerateOpenApiArtifacts Condition="'$(GenerateOpenApiArtifacts)' == '' AND '$(Configuration)' == 'Debug'">true</GenerateOpenApiArtifacts>
+    <OpenApiGenerationStamp>$(BaseIntermediateOutputPath)openapi-generation.$(Configuration).stamp</OpenApiGenerationStamp>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NSwag.AspNetCore" />
+    <PackageReference Include="NSwag.MSBuild">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Serilog.AspNetCore" />
+    <PackageReference Include="Serilog.Sinks.File" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CeibaAssets.Application\CeibaAssets.Application.csproj" />
+    <ProjectReference Include="..\CeibaAssets.Contracts\CeibaAssets.Contracts.csproj" />
+    <ProjectReference Include="..\CeibaAssets.Infrastructure\CeibaAssets.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <!-- Regenera el documento OpenAPI y el cliente Angular (NSwag) cuando cambian la API o sus contratos.
+       Desactivar con -p:GenerateOpenApiArtifacts=false. -->
+  <Target Name="GenerateOpenApiArtifacts"
+          AfterTargets="Build"
+          Condition="'$(GenerateOpenApiArtifacts)' == 'true'"
+          Inputs="nswag.json;$(TargetPath);$(TargetDir)$(TargetName).xml;$(TargetDir)CeibaAssets.Contracts.dll;$(TargetDir)CeibaAssets.Contracts.xml"
+          Outputs="$(OpenApiGenerationStamp)">
+    <Exec WorkingDirectory="$(MSBuildProjectDirectory)"
+          Command="$(NSwagExe_Net100) run nswag.json /variables:Configuration=$(Configuration)" />
+    <!-- NSwag deja este archivo en obj/; MSBuild lo importa automáticamente y, si permanece,
+         fuerza a recompilar la API (y a regenerar el contrato) en cada compilación. -->
+    <Delete Files="$(MSBuildProjectExtensionsPath)$(MSBuildProjectFile).NSwag.targets" />
+    <Touch Files="$(OpenApiGenerationStamp)" AlwaysCreate="true" />
+  </Target>
+
+</Project>

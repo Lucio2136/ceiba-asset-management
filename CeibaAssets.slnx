@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/backend/">
+    <Project Path="src/backend/CeibaAssets.Api/CeibaAssets.Api.csproj" />
+    <Project Path="src/backend/CeibaAssets.Application/CeibaAssets.Application.csproj" />
+    <Project Path="src/backend/CeibaAssets.Contracts/CeibaAssets.Contracts.csproj" />
+    <Project Path="src/backend/CeibaAssets.Domain/CeibaAssets.Domain.csproj" />
+    <Project Path="src/backend/CeibaAssets.Infrastructure/CeibaAssets.Infrastructure.csproj" />
+    <Project Path="src/backend/CeibaAssets.SyncWorker/CeibaAssets.SyncWorker.csproj" />
+  </Folder>
+  <Folder Name="/tests/" />
+  <Folder Name="/tests/backend/">
+    <Project Path="tests/backend/CeibaAssets.Api.Tests/CeibaAssets.Api.Tests.csproj" />
+    <Project Path="tests/backend/CeibaAssets.Architecture.Tests/CeibaAssets.Architecture.Tests.csproj" />
+  </Folder>
+</Solution>

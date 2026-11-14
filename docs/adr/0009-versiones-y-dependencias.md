@@ -33,9 +33,9 @@ lock versionados.
 - Los paquetes de `dotnet/extensions` se publican de forma independiente y admiten `net10.0`.
   Para ellos se usa la última versión estable: `Microsoft.Extensions.Http.Resilience` 11.0.0
   depende de paquetes de runtime 10.0.x en `net10.0`.
-- Paquetes instalados en la Fase 1, aunque algunos se usarán después: EF Core SqlServer y Design
-  (Fase 2), FluentValidation (registrado desde la Fase 1), NSwag, Serilog y Http.Resilience
-  (Fase 9).
+- Todos los paquetes aprobados se instalaron en la Fase 1 para validar su compatibilidad. NSwag,
+  Serilog y FluentValidation ya están en uso; EF Core SqlServer y Design se usarán desde la
+  Fase 2, y Http.Resilience en la Fase 9.
 
 ### Paquetes npm
 

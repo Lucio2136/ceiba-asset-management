@@ -56,7 +56,7 @@ Sin contenedores ni microservicios. Ver [arquitectura](docs/architecture/overvie
 | .NET SDK        | 10.0.404 o superior en 10.0 | Backend (fijado en `global.json`)        |
 | Node.js         | 24 LTS (`>=24.15`)         | Frontend                                 |
 | npm             | 11                         | Frontend                                 |
-| Git             | 2.4x o superior            | Control de versiones y hooks             |
+| Git             | 2.9 o superior             | Control de versiones y hooks (`core.hooksPath`) |
 | Microsoft Edge  | Actual                     | Pruebas E2E                              |
 | SQL Server 2025 | Developer o Express        | Desde la Fase 2                          |
 | PowerShell      | 7.x                        | Desde la Fase 7 (agente y Pester)        |

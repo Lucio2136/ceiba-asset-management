@@ -1,5 +1,6 @@
 using CeibaAssets.Api.HealthChecks;
 using CeibaAssets.Api.Middleware;
+using CeibaAssets.Api.Security;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Serilog;
 
@@ -23,7 +24,16 @@ internal static class WebApplicationExtensions
         // Sin un logger explícito, el middleware escribe en el Log estático, que se preserva vacío.
         app.UseSerilogRequestLogging(
             options => options.Logger = app.Services.GetRequiredService<Serilog.ILogger>());
-        app.UseExceptionHandler();
+
+        if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Testing"))
+        {
+            app.UseDeveloperExceptionPage();
+        }
+        else
+        {
+            app.UseExceptionHandler();
+        }
+
         app.UseStatusCodePages();
 
         if (!app.Environment.IsDevelopment())
@@ -31,7 +41,12 @@ internal static class WebApplicationExtensions
             app.UseHsts();
         }
 
-        app.UseHttpsRedirection();
+        // El test server de WebApplicationFactory usa HTTP; la redirección HTTPS rompe las pruebas.
+        if (!app.Environment.IsEnvironment("Testing"))
+        {
+            app.UseHttpsRedirection();
+        }
+
         app.UseResponseCompression();
 
         if (app.Configuration.GetValue<bool>("OpenApi:Enabled"))
@@ -42,7 +57,9 @@ internal static class WebApplicationExtensions
 
         app.UseRouting();
         app.UseRateLimiter();
+        app.UseAuthentication();
         app.UseAuthorization();
+        app.UseMiddleware<XsrfTokenMiddleware>();
 
         return app;
     }
@@ -55,13 +72,13 @@ internal static class WebApplicationExtensions
         {
             Predicate = _ => false,
             ResponseWriter = HealthReportWriter.WriteAsync,
-        }).DisableRateLimiting();
+        }).DisableRateLimiting().AllowAnonymous();
 
         app.MapHealthChecks("/health/ready", new HealthCheckOptions
         {
             Predicate = check => check.Tags.Contains("ready"),
             ResponseWriter = HealthReportWriter.WriteAsync,
-        }).DisableRateLimiting();
+        }).DisableRateLimiting().AllowAnonymous();
 
         return app;
     }

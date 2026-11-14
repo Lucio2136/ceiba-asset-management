@@ -1,0 +1,59 @@
+<main class="login-layout" id="main-content">
+  <mat-card appearance="outlined" class="login-card">
+    <mat-card-content class="login-content">
+      <header class="login-brand">
+        <div class="login-avatar" aria-hidden="true">
+          <svg lucideBoxes></svg>
+        </div>
+        <div class="login-brand-text">
+          <h1 class="login-title">Iniciar sesión</h1>
+          <p class="login-subtitle">CEIBA Asset Management</p>
+        </div>
+      </header>
+
+      <form class="login-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        @if (errorMessage(); as message) {
+          <div class="login-error" role="alert">
+            <svg lucideCircleExclamationPoint aria-hidden="true"></svg>
+            <span>{{ message }}</span>
+          </div>
+        }
+
+        <mat-form-field class="login-field" subscriptSizing="dynamic">
+          <mat-label>Correo</mat-label>
+          <input matInput formControlName="email" type="email" autocomplete="username" required />
+          @if (form.controls.email.hasError('required') || form.controls.email.hasError('email')) {
+            <mat-error>Ingresa un correo válido.</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field class="login-field" subscriptSizing="dynamic">
+          <mat-label>Contraseña</mat-label>
+          <input
+            matInput
+            type="password"
+            formControlName="password"
+            autocomplete="current-password"
+            required
+          />
+          @if (form.controls.password.hasError('required')) {
+            <mat-error>Ingresa tu contraseña.</mat-error>
+          }
+        </mat-form-field>
+
+        <button matButton="filled" type="submit" class="login-submit" [disabled]="submitting()">
+          @if (submitting()) {
+            <mat-progress-spinner
+              mode="indeterminate"
+              diameter="18"
+              aria-label="Iniciando sesión"
+            />
+          } @else {
+            <svg lucideLogIn aria-hidden="true"></svg>
+          }
+          <span>Entrar</span>
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</main>

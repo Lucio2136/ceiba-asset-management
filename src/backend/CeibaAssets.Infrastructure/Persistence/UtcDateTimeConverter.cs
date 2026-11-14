@@ -1,0 +1,13 @@
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+
+namespace CeibaAssets.Infrastructure.Persistence;
+
+internal sealed class UtcDateTimeConverter()
+    : ValueConverter<DateTime, DateTime>(
+        value => value.Kind == DateTimeKind.Utc ? value : value.ToUniversalTime(),
+        value => DateTime.SpecifyKind(value, DateTimeKind.Utc));
+
+internal sealed class NullableUtcDateTimeConverter()
+    : ValueConverter<DateTime?, DateTime?>(
+        value => value.HasValue && value.Value.Kind != DateTimeKind.Utc ? value.Value.ToUniversalTime() : value,
+        value => value.HasValue ? DateTime.SpecifyKind(value.Value, DateTimeKind.Utc) : value);

@@ -111,3 +111,10 @@ dotnet_naming_rule.static_readonly_pascal.severity = warning
 [tests/**/*.cs]
 # Los nombres de prueba siguen el patrón Metodo_Escenario_Resultado.
 dotnet_diagnostic.CA1707.severity = none
+
+[**/Persistence/Migrations/**.cs]
+# Código generado por EF Core; no aplicar estilo ni reglas de calidad.
+generated_code = true
+dotnet_diagnostic.IDE0005.severity = none
+dotnet_diagnostic.IDE0161.severity = none
+dotnet_diagnostic.CA1861.severity = none

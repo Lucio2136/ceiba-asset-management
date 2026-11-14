@@ -1,0 +1,67 @@
+<section aria-labelledby="assets-title">
+  <header class="page-header">
+    <div class="page-heading">
+      <h1 id="assets-title" class="page-title">Inventario de activos</h1>
+      <p class="page-subtitle">
+        Equipos y dispositivos de CEIBA con su estado, ubicación y responsable.
+      </p>
+    </div>
+    <div class="page-actions">
+      <a matButton="filled" routerLink="/assets/new">
+        <svg lucidePlus></svg>
+        Nuevo activo
+      </a>
+    </div>
+  </header>
+
+  <div class="filters">
+    <ceiba-data-filters
+      searchLabel="Buscar por nombre o serie"
+      [selects]="selects"
+      [value]="filters()"
+      (valueChange)="filters.set($event)"
+    />
+  </div>
+
+  <div class="surface">
+    @if (assets.error(); as error) {
+      <ceiba-error-state [error]="error" (retry)="assets.reload()" />
+    } @else if (current(); as result) {
+      @if (result.items.length === 0) {
+        @if (hasActiveFilters()) {
+          <ceiba-empty-state
+            title="Sin resultados"
+            message="Ningún activo coincide con los filtros. Prueba con otros criterios."
+          />
+        } @else {
+          <ceiba-empty-state
+            title="Aún no hay activos"
+            message="Registra el primer activo para comenzar el inventario."
+          >
+            <a matButton="filled" routerLink="/assets/new">Nuevo activo</a>
+          </ceiba-empty-state>
+        }
+      } @else {
+        <ceiba-asset-table
+          [rows]="result.items"
+          [loading]="assets.isLoading()"
+          [initialSort]="sort()"
+          (sortChange)="sort.set($event)"
+        />
+      }
+      <mat-paginator
+        [length]="result.totalCount"
+        [pageIndex]="page() - 1"
+        [pageSize]="pageSize()"
+        [pageSizeOptions]="pageSizeOptions"
+        showFirstLastButtons
+        aria-label="Paginación del inventario"
+        (page)="onPage($event)"
+      />
+    } @else {
+      <div class="loading-block">
+        <mat-progress-spinner mode="indeterminate" diameter="40" aria-label="Cargando activos" />
+      </div>
+    }
+  </div>
+</section>

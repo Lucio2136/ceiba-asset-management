@@ -1,0 +1,66 @@
+<section aria-labelledby="people-title">
+  <header class="page-header">
+    <div class="page-heading">
+      <h1 id="people-title" class="page-title">Responsables</h1>
+      <p class="page-subtitle">Personas a quienes se pueden asignar activos.</p>
+    </div>
+  </header>
+
+  <div class="filters">
+    <ceiba-data-filters
+      searchLabel="Buscar por nombre, correo, número o área"
+      [value]="filters()"
+      (valueChange)="filters.set($event)"
+    />
+  </div>
+
+  <div class="surface">
+    @if (people.isLoading()) {
+      <div class="loading-block">
+        <mat-progress-spinner
+          mode="indeterminate"
+          diameter="40"
+          aria-label="Cargando responsables"
+        />
+      </div>
+    } @else if (people.error(); as error) {
+      <ceiba-error-state [error]="error" (retry)="people.reload()" />
+    } @else if (people.hasValue()) {
+      @if (items().length === 0) {
+        <ceiba-empty-state
+          title="Sin responsables"
+          [message]="
+            filters().search
+              ? 'Ningún responsable coincide con la búsqueda.'
+              : 'Todavía no hay responsables registrados.'
+          "
+        />
+      } @else {
+        <table mat-table [dataSource]="items()" aria-label="Listado de responsables">
+          <ng-container matColumnDef="employeeNumber">
+            <th mat-header-cell *matHeaderCellDef>N.º empleado</th>
+            <td mat-cell *matCellDef="let person">{{ person.employeeNumber }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="displayName">
+            <th mat-header-cell *matHeaderCellDef>Nombre</th>
+            <td mat-cell *matCellDef="let person">{{ person.displayName }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>Correo</th>
+            <td mat-cell *matCellDef="let person">{{ person.email || '—' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="department">
+            <th mat-header-cell *matHeaderCellDef>Área</th>
+            <td mat-cell *matCellDef="let person">{{ person.department || '—' }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="columns"></tr>
+          <tr mat-row *matRowDef="let row; columns: columns"></tr>
+        </table>
+      }
+    }
+  </div>
+</section>

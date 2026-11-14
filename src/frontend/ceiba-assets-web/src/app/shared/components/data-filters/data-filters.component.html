@@ -1,0 +1,29 @@
+<form class="filters" role="search" (submit)="$event.preventDefault()">
+  <mat-form-field class="search-field" subscriptSizing="dynamic">
+    <mat-label>{{ searchLabel() }}</mat-label>
+    <svg matPrefix lucideSearch class="prefix-icon" aria-hidden="true"></svg>
+    <input matInput type="search" autocomplete="off" [formControl]="searchControl" />
+  </mat-form-field>
+
+  @for (select of selects(); track select.key) {
+    <mat-form-field class="select-field" subscriptSizing="dynamic">
+      <mat-label>{{ select.label }}</mat-label>
+      <mat-select
+        [value]="selectionOf(select.key)"
+        (selectionChange)="onSelect(select.key, $event.value)"
+      >
+        <mat-option value="">Todos</mat-option>
+        @for (option of select.options; track option.value) {
+          <mat-option [value]="option.value">{{ option.label }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  }
+
+  @if (hasFilters()) {
+    <button matButton type="button" (click)="clear()">
+      <svg lucideX></svg>
+      Limpiar filtros
+    </button>
+  }
+</form>

@@ -14,9 +14,10 @@ tecnológicos de tres edificios ficticios:
 
 ## Estado
 
-**Fase 1 completada: fundamentos.** Hay estructura, toolchain, calidad, documentación y un flujo
-técnico de extremo a extremo (SPA → API → cliente generado). Todavía no hay módulos de negocio.
-La hoja de ruta completa está en [docs/architecture/overview.md](docs/architecture/overview.md#hoja-de-ruta).
+**Núcleo funcional (Fases 2–5):** ubicaciones, Identity con cookie + CSRF, inventario de activos
+(AG Grid), responsables, asignaciones/devoluciones/movimientos y seed ficticio en SQL Server
+Express. La hoja de ruta completa está en
+[docs/architecture/overview.md](docs/architecture/overview.md#hoja-de-ruta).
 
 ## Arquitectura en breve
 
@@ -75,11 +76,22 @@ dotnet test --solution CeibaAssets.slnx
 # API en https://localhost:7135/api (Swagger en /api/swagger)
 dotnet run --project src/backend/CeibaAssets.Api --launch-profile https
 
-# Frontend en http://localhost:4200
+# Frontend en http://localhost:4200 (proxy a la API)
 cd src/frontend/ceiba-assets-web
 npm ci
 npm start
 ```
+
+### Laboratorio local (SQL Express + admin)
+
+1. Instancia `.\SQLEXPRESS` con la base `CeibaAssets` (la API aplica migraciones al arrancar en Development).
+2. Contraseña del administrador de laboratorio (no se versiona):
+
+```powershell
+dotnet user-secrets set "Seed:AdminPassword" "CeibaLab!2026Admin" --project src/backend/CeibaAssets.Api
+```
+
+3. Inicio de sesión en la SPA: correo `admin@ceiba.example` y la contraseña anterior.
 
 ## Verificación antes de integrar
 

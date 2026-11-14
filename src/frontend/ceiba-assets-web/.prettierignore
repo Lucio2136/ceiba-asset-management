@@ -1,0 +1,10 @@
+# Generado o administrado por herramientas.
+.angular
+coverage
+dist
+node_modules
+package-lock.json
+playwright-report
+test-results
+public
+src/app/core/http/generated

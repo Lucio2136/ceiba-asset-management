@@ -1,0 +1,46 @@
+<a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+
+<mat-toolbar class="shell-toolbar">
+  @if (isCompact()) {
+    <button matIconButton type="button" aria-label="Abrir navegación" (click)="sidenav.toggle()">
+      <svg lucideMenu></svg>
+    </button>
+  }
+  <a class="brand" routerLink="/">
+    <svg lucideBoxes class="brand-icon"></svg>
+    <span class="brand-name">CEIBA Asset Management</span>
+  </a>
+</mat-toolbar>
+
+<mat-sidenav-container class="shell-container">
+  <mat-sidenav
+    #sidenav
+    class="shell-nav"
+    [mode]="isCompact() ? 'over' : 'side'"
+    [opened]="!isCompact()"
+  >
+    <nav aria-label="Navegación principal">
+      <mat-nav-list>
+        <a
+          mat-list-item
+          routerLink="/"
+          routerLinkActive
+          #homeLink="routerLinkActive"
+          ariaCurrentWhenActive="page"
+          [routerLinkActiveOptions]="{ exact: true }"
+          [activated]="homeLink.isActive"
+          (click)="isCompact() && sidenav.close()"
+        >
+          <svg matListItemIcon lucideHouse></svg>
+          <span matListItemTitle>Inicio</span>
+        </a>
+      </mat-nav-list>
+    </nav>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <main id="main-content" class="shell-content" tabindex="-1">
+      <router-outlet />
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

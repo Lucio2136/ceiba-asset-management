@@ -104,3 +104,7 @@ frontend en el commit, y `dotnet format whitespace` sobre los archivos C# en el 
 - [Línea base de seguridad](docs/security/security-baseline.md)
 - [Despliegue](docs/deployment/README.md) y [runbooks](docs/runbooks/README.md)
 - [Estrategia de pruebas](tests/README.md)
+
+## Licencia
+
+[MIT](LICENSE).

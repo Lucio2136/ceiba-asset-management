@@ -1,0 +1,53 @@
+# --- Sistema operativo y editores ---
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.idea/
+.vs/
+*.user
+*.suo
+*.userprefs
+
+# --- .NET ---
+bin/
+obj/
+artifacts/
+publish/
+TestResults/
+*.trx
+*.coverage
+coverage.cobertura.xml
+*.nupkg
+*.snupkg
+
+# --- Node / Angular / Playwright ---
+node_modules/
+dist/
+.angular/
+coverage/
+playwright-report/
+test-results/
+blob-report/
+playwright/.cache/
+
+# --- Logs locales ---
+logs/
+*.log
+
+# --- Secretos y certificados: nunca deben versionarse ---
+.env
+.env.*
+!.env.example
+*.pfx
+*.p12
+*.key
+*.pem
+secrets.json
+appsettings.*.local.json
+
+# --- Bases de datos y respaldos locales ---
+*.mdf
+*.ldf
+*.bak
+*.bacpac

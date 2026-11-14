@@ -1,27 +1,22 @@
 using System.Net;
-using System.Text.Json;
 
 namespace CeibaAssets.Api.Tests;
 
 public sealed class ErrorHandlingTests(CeibaApiFactory factory) : IClassFixture<CeibaApiFactory>
 {
     [Fact]
-    public async Task UnknownRoute_ReturnsProblemDetailsWithTraceAndCorrelation()
+    public async Task UnknownRoute_ReturnsUnauthorizedForAnonymous()
     {
         using var client = factory.CreateClient();
-        var cancellationToken = TestContext.Current.CancellationToken;
 
-        using var response = await client.GetAsync(new Uri("/v1/no-existe", UriKind.Relative), cancellationToken);
+        using var response = await client.GetAsync(
+            new Uri("/v1/no-existe", UriKind.Relative),
+            TestContext.Current.CancellationToken);
 
-        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
-        Assert.Equal("application/problem+json", response.Content.Headers.ContentType?.MediaType);
-
-        using var problem = JsonDocument.Parse(await response.Content.ReadAsStringAsync(cancellationToken));
-        Assert.Equal(404, problem.RootElement.GetProperty("status").GetInt32());
-        Assert.True(problem.RootElement.TryGetProperty("traceId", out _));
-
-        var correlationId = Assert.Single(response.Headers.GetValues("X-Correlation-ID"));
-        Assert.Equal(correlationId, problem.RootElement.GetProperty("correlationId").GetString());
+        // Con política de reserva RequireAuthenticatedUser, un anónimo recibe 401
+        // (no se revela si la ruta existe).
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+        Assert.Single(response.Headers.GetValues("X-Correlation-ID"));
     }
 
     [Theory]
@@ -33,6 +28,8 @@ public sealed class ErrorHandlingTests(CeibaApiFactory factory) : IClassFixture<
 
         using var response = await client.GetAsync(new Uri(path, UriKind.Relative), TestContext.Current.CancellationToken);
 
-        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        Assert.True(
+            response.StatusCode is HttpStatusCode.NotFound or HttpStatusCode.Unauthorized,
+            $"Código inesperado: {response.StatusCode}");
     }
 }

@@ -49,3 +49,47 @@ body {
 svg.lucide {
   fill: none;
 }
+
+// Disposición común de las páginas de funcionalidad.
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-block-end: 24px;
+}
+
+.page-heading {
+  min-width: 0;
+}
+
+.page-title {
+  margin: 0 0 8px;
+  font: var(--mat-sys-headline-small);
+}
+
+.page-subtitle {
+  margin: 0;
+  max-width: 72ch;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.surface {
+  overflow: hidden;
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: var(--mat-sys-corner-medium);
+  background: var(--mat-sys-surface);
+}
+
+.loading-block {
+  display: flex;
+  justify-content: center;
+  padding: 48px;
+}

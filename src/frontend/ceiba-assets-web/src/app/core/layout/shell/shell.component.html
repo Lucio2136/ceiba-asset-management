@@ -1,7 +1,7 @@
 <a class="skip-link" href="#main-content">Saltar al contenido principal</a>
 
 <mat-toolbar class="shell-toolbar">
-  @if (isCompact()) {
+  @if (auth.isAuthenticated() && isCompact()) {
     <button matIconButton type="button" aria-label="Abrir navegación" (click)="sidenav.toggle()">
       <svg lucideMenu></svg>
     </button>
@@ -10,6 +10,19 @@
     <svg lucideBoxes class="brand-icon"></svg>
     <span class="brand-name">CEIBA Asset Management</span>
   </a>
+
+  <span class="spacer"></span>
+
+  @if (auth.user(); as user) {
+    <span class="user" data-testid="current-user">
+      <svg lucideUser class="user-icon" aria-hidden="true"></svg>
+      <span class="user-name">{{ user.displayName }}</span>
+    </span>
+    <button matButton type="button" class="logout" (click)="logout()">
+      <svg lucideLogOut></svg>
+      Cerrar sesión
+    </button>
+  }
 </mat-toolbar>
 
 <mat-sidenav-container class="shell-container">
@@ -17,25 +30,44 @@
     #sidenav
     class="shell-nav"
     [mode]="isCompact() ? 'over' : 'side'"
-    [opened]="!isCompact()"
+    [opened]="auth.isAuthenticated() && !isCompact()"
   >
-    <nav aria-label="Navegación principal">
-      <mat-nav-list>
-        <a
-          mat-list-item
-          routerLink="/"
-          routerLinkActive
-          #homeLink="routerLinkActive"
-          ariaCurrentWhenActive="page"
-          [routerLinkActiveOptions]="{ exact: true }"
-          [activated]="homeLink.isActive"
-          (click)="isCompact() && sidenav.close()"
-        >
-          <svg matListItemIcon lucideHouse></svg>
-          <span matListItemTitle>Inicio</span>
-        </a>
-      </mat-nav-list>
-    </nav>
+    @if (auth.isAuthenticated()) {
+      <nav aria-label="Navegación principal">
+        <mat-nav-list>
+          @for (item of navItems; track item.path) {
+            <a
+              mat-list-item
+              [routerLink]="item.path"
+              routerLinkActive
+              #link="routerLinkActive"
+              ariaCurrentWhenActive="page"
+              [activated]="link.isActive"
+              (click)="isCompact() && sidenav.close()"
+            >
+              @switch (item.path) {
+                @case ('/assets') {
+                  <svg matListItemIcon lucideMonitorSmartphone></svg>
+                }
+                @case ('/buildings') {
+                  <svg matListItemIcon lucideBuilding2></svg>
+                }
+                @case ('/locations') {
+                  <svg matListItemIcon lucideMapPin></svg>
+                }
+                @case ('/people') {
+                  <svg matListItemIcon lucideUsers></svg>
+                }
+                @default {
+                  <svg matListItemIcon lucideActivity></svg>
+                }
+              }
+              <span matListItemTitle>{{ item.label }}</span>
+            </a>
+          }
+        </mat-nav-list>
+      </nav>
+    }
   </mat-sidenav>
 
   <mat-sidenav-content>

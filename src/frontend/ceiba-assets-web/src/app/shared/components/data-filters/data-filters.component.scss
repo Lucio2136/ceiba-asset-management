@@ -1,0 +1,20 @@
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.search-field {
+  flex: 1 1 260px;
+  max-width: 420px;
+}
+
+.select-field {
+  flex: 0 1 200px;
+}
+
+.prefix-icon {
+  margin-inline: 12px 4px;
+  color: var(--mat-sys-on-surface-variant);
+}

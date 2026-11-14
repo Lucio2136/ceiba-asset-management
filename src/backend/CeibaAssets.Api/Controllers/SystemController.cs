@@ -1,5 +1,6 @@
 using System.Reflection;
 using CeibaAssets.Contracts.Platform;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CeibaAssets.Api.Controllers;
@@ -10,6 +11,7 @@ namespace CeibaAssets.Api.Controllers;
 [ApiController]
 [Route("v1/system")]
 [Produces("application/json")]
+[AllowAnonymous]
 public sealed class SystemController : ControllerBase
 {
     private static readonly SystemInfoResponse Info = new()

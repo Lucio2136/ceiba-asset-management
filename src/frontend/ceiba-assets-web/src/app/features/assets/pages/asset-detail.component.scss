@@ -1,0 +1,36 @@
+.section-title {
+  margin: 0;
+  font: var(--mat-sys-title-medium);
+}
+
+.history-title {
+  margin-block: 24px 12px;
+}
+
+.details-card {
+  max-width: 800px;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 8px 24px;
+  margin: 16px 0 0;
+
+  dt {
+    color: var(--mat-sys-on-surface-variant);
+  }
+
+  dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+table {
+  width: 100%;
+}
+
+.back-link {
+  margin-block-start: 16px;
+}

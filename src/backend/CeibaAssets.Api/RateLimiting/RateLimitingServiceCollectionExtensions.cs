@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Threading.RateLimiting;
+using CeibaAssets.Api.Security;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.Extensions.Options;
 
@@ -21,6 +22,19 @@ internal static class RateLimitingServiceCollectionExtensions
                     _ => new FixedWindowRateLimiterOptions
                     {
                         PermitLimit = limits.PermitLimit,
+                        Window = TimeSpan.FromSeconds(limits.WindowSeconds),
+                        QueueLimit = 0,
+                    });
+            });
+            options.AddPolicy(Policies.LoginRateLimit, context =>
+            {
+                var limits = context.RequestServices.GetRequiredService<IOptions<RateLimitingOptions>>().Value;
+
+                return RateLimitPartition.GetFixedWindowLimiter(
+                    context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+                    _ => new FixedWindowRateLimiterOptions
+                    {
+                        PermitLimit = limits.LoginPermitLimit,
                         Window = TimeSpan.FromSeconds(limits.WindowSeconds),
                         QueueLimit = 0,
                     });

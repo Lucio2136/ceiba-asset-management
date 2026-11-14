@@ -13,7 +13,8 @@
     <!-- La documentación XML alimenta OpenAPI y habilita IDE0005 en compilación;
          no se exige comentario en cada miembro público. -->
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <!-- CA1848/CA1873: rendimiento de logging; no aportan a la corrección funcional. -->
+    <NoWarn>$(NoWarn);CS1591;CA1848;CA1873</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Label="Dependencias">

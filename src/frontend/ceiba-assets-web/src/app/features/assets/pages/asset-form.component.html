@@ -1,0 +1,79 @@
+<section aria-labelledby="asset-form-title">
+  <header class="page-header">
+    <div class="page-heading">
+      <h1 id="asset-form-title" class="page-title">
+        {{ isEdit() ? 'Editar activo' : 'Nuevo activo' }}
+      </h1>
+      <p class="page-subtitle">
+        El estado, el responsable y la ubicación cambian con las acciones Asignar, Devolver y Mover
+        del detalle.
+      </p>
+    </div>
+    <div class="page-actions">
+      <a matButton routerLink="/assets">
+        <svg lucideArrowLeft></svg>
+        Volver al inventario
+      </a>
+    </div>
+  </header>
+
+  @if (isEdit() && asset.isLoading()) {
+    <div class="loading-block">
+      <mat-progress-spinner mode="indeterminate" diameter="40" aria-label="Cargando activo" />
+    </div>
+  } @else if (isEdit() && asset.error(); as error) {
+    <div class="surface">
+      <ceiba-error-state [error]="error" (retry)="asset.reload()" />
+    </div>
+  } @else {
+    <mat-card appearance="outlined" class="form-card">
+      <mat-card-content>
+        <form class="form" [formGroup]="form" (ngSubmit)="save()" novalidate>
+          <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="name" maxlength="200" required />
+            @if (form.controls.name.hasError('required')) {
+              <mat-error>El nombre es obligatorio.</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Tipo</mat-label>
+            <mat-select formControlName="assetType" required>
+              @for (option of typeOptions; track option.value) {
+                <mat-option [value]="option.value">{{ option.label }}</mat-option>
+              }
+            </mat-select>
+            @if (form.controls.assetType.hasError('required')) {
+              <mat-error>Selecciona un tipo.</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Número de serie</mat-label>
+            <input matInput formControlName="serialNumber" maxlength="100" />
+          </mat-form-field>
+
+          <ceiba-location-selector formControlName="locationId" [allowEmpty]="true" />
+
+          <mat-form-field class="full-width">
+            <mat-label>Notas</mat-label>
+            <textarea matInput formControlName="notes" rows="4" maxlength="2000"></textarea>
+          </mat-form-field>
+
+          <div class="form-actions full-width">
+            <a matButton routerLink="/assets">Cancelar</a>
+            <button matButton="filled" type="submit" [disabled]="saving()">
+              @if (saving()) {
+                <mat-progress-spinner mode="indeterminate" diameter="18" aria-label="Guardando" />
+              } @else {
+                <svg lucideSave></svg>
+              }
+              Guardar
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  }
+</section>

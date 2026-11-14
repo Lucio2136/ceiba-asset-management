@@ -1,0 +1,59 @@
+<main class="login-layout" id="main-content">
+  <mat-card appearance="outlined" class="login-card">
+    <mat-card-header class="login-header">
+      <div mat-card-avatar class="login-avatar">
+        <svg lucideBoxes aria-hidden="true"></svg>
+      </div>
+      <mat-card-title>
+        <h1 class="login-title">Iniciar sesión</h1>
+      </mat-card-title>
+      <mat-card-subtitle>CEIBA Asset Management</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form class="login-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+        @if (errorMessage(); as message) {
+          <div class="login-error" role="alert">
+            <svg lucideCircleExclamationPoint aria-hidden="true"></svg>
+            <span>{{ message }}</span>
+          </div>
+        }
+
+        <mat-form-field>
+          <mat-label>Correo</mat-label>
+          <input matInput formControlName="email" type="email" autocomplete="username" required />
+          @if (form.controls.email.hasError('required') || form.controls.email.hasError('email')) {
+            <mat-error>Ingresa un correo válido.</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Contraseña</mat-label>
+          <input
+            matInput
+            type="password"
+            formControlName="password"
+            autocomplete="current-password"
+            required
+          />
+          @if (form.controls.password.hasError('required')) {
+            <mat-error>Ingresa tu contraseña.</mat-error>
+          }
+        </mat-form-field>
+
+        <button matButton="filled" type="submit" class="login-submit" [disabled]="submitting()">
+          @if (submitting()) {
+            <mat-progress-spinner
+              mode="indeterminate"
+              diameter="18"
+              aria-label="Iniciando sesión"
+            />
+          } @else {
+            <svg lucideLogIn aria-hidden="true"></svg>
+          }
+          Entrar
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</main>

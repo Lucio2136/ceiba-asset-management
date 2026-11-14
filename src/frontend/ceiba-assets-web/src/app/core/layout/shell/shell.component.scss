@@ -49,6 +49,37 @@
   color: var(--mat-sys-inverse-primary);
 }
 
+.spacer {
+  flex: 1 1 auto;
+}
+
+.user {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: var(--mat-sys-label-large);
+}
+
+.user-icon {
+  color: var(--mat-sys-inverse-primary);
+}
+
+.logout {
+  --mat-button-text-label-text-color: var(--mat-sys-inverse-on-surface);
+  --mat-button-text-state-layer-color: var(--mat-sys-inverse-on-surface);
+  --mat-button-text-ripple-color: color-mix(
+    in srgb,
+    var(--mat-sys-inverse-on-surface) 12%,
+    transparent
+  );
+}
+
+@media (max-width: 599.98px) {
+  .user-name {
+    display: none;
+  }
+}
+
 .shell-container {
   flex: 1;
 }

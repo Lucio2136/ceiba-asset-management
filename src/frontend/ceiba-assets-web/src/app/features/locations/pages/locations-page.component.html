@@ -1,0 +1,81 @@
+<section aria-labelledby="locations-title">
+  <header class="page-header">
+    <div class="page-heading">
+      <h1 id="locations-title" class="page-title">Ubicaciones</h1>
+      <p class="page-subtitle">Espacios físicos donde se almacenan o usan los activos.</p>
+    </div>
+  </header>
+
+  <div class="filters">
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>Edificio</mat-label>
+      <mat-select [value]="buildingId() ?? ''" (selectionChange)="selectBuilding($event.value)">
+        <mat-option value="">Todos</mat-option>
+        @for (building of buildingList(); track building.id) {
+          <mat-option [value]="building.id">{{ building.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>Piso</mat-label>
+      <mat-select
+        [value]="floorNumber() ?? ''"
+        [disabled]="floorOptions().length === 0"
+        (selectionChange)="selectFloor($event.value)"
+      >
+        <mat-option value="">Todos</mat-option>
+        @for (floor of floorOptions(); track floor) {
+          <mat-option [value]="floor">Piso {{ floor }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="surface">
+    @if (locations.isLoading()) {
+      <div class="loading-block">
+        <mat-progress-spinner
+          mode="indeterminate"
+          diameter="40"
+          aria-label="Cargando ubicaciones"
+        />
+      </div>
+    } @else if (locations.error(); as error) {
+      <ceiba-error-state [error]="error" (retry)="locations.reload()" />
+    } @else if (locations.hasValue()) {
+      @let items = locations.value();
+      @if (items.length === 0) {
+        <ceiba-empty-state
+          title="Sin ubicaciones"
+          message="No hay ubicaciones que coincidan con los filtros seleccionados."
+        />
+      } @else {
+        <table mat-table [dataSource]="items" aria-label="Listado de ubicaciones">
+          <ng-container matColumnDef="building">
+            <th mat-header-cell *matHeaderCellDef>Edificio</th>
+            <td mat-cell *matCellDef="let location">{{ location.buildingName }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="floor">
+            <th mat-header-cell *matHeaderCellDef>Piso</th>
+            <td mat-cell *matCellDef="let location">{{ location.levelNumber }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Ubicación</th>
+            <td mat-cell *matCellDef="let location">{{ location.name }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef>Código</th>
+            <td mat-cell *matCellDef="let location">{{ location.code || '—' }}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="columns"></tr>
+          <tr mat-row *matRowDef="let row; columns: columns"></tr>
+        </table>
+      }
+    }
+  </div>
+</section>

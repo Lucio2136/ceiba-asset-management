@@ -1,0 +1,41 @@
+.badge {
+  --badge-bg: var(--mat-sys-surface-container-high);
+  --badge-fg: var(--mat-sys-on-surface-variant);
+
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 10px;
+  border-radius: var(--mat-sys-corner-full);
+  background: var(--badge-bg);
+  color: var(--badge-fg);
+  font: var(--mat-sys-label-medium);
+  white-space: nowrap;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.badge[data-status='Available'] {
+  --badge-bg: var(--mat-sys-tertiary-container);
+  --badge-fg: var(--mat-sys-on-tertiary-container);
+}
+
+.badge[data-status='Assigned'] {
+  --badge-bg: var(--mat-sys-primary-container);
+  --badge-fg: var(--mat-sys-on-primary-container);
+}
+
+.badge[data-status='InMaintenance'] {
+  --badge-bg: var(--mat-sys-secondary-container);
+  --badge-fg: var(--mat-sys-on-secondary-container);
+}
+
+.badge[data-status='Retired'] {
+  --badge-bg: var(--mat-sys-error-container);
+  --badge-fg: var(--mat-sys-on-error-container);
+}

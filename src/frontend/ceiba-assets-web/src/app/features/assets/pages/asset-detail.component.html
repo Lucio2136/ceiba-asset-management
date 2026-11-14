@@ -47,24 +47,42 @@
       </mat-card-header>
       <mat-card-content>
         <dl class="details">
-          <dt>Tipo</dt>
-          <dd>{{ typeLabels[item.assetType] }}</dd>
-          <dt>Fabricante</dt>
-          <dd>{{ item.manufacturer || '—' }}</dd>
-          <dt>Modelo</dt>
-          <dd>{{ item.model || '—' }}</dd>
-          <dt>Número de serie</dt>
-          <dd>{{ item.serialNumber || '—' }}</dd>
-          <dt>Ubicación</dt>
-          <dd>{{ item.locationPath || item.locationName || 'Sin ubicación' }}</dd>
-          <dt>Responsable</dt>
-          <dd>{{ item.currentAssignment?.responsiblePersonName || 'Sin asignar' }}</dd>
-          <dt>Notas</dt>
-          <dd>{{ item.notes || '—' }}</dd>
-          <dt>Creado</dt>
-          <dd>{{ item.createdAtUtc | date: 'medium' }}</dd>
-          <dt>Actualizado</dt>
-          <dd>{{ item.updatedAtUtc | date: 'medium' }}</dd>
+          <div>
+            <dt>Tipo</dt>
+            <dd>{{ typeLabels[item.assetType] }}</dd>
+          </div>
+          <div>
+            <dt>Fabricante</dt>
+            <dd>{{ item.manufacturer || '—' }}</dd>
+          </div>
+          <div>
+            <dt>Modelo</dt>
+            <dd>{{ item.model || '—' }}</dd>
+          </div>
+          <div>
+            <dt>Número de serie</dt>
+            <dd>{{ item.serialNumber || '—' }}</dd>
+          </div>
+          <div>
+            <dt>Ubicación</dt>
+            <dd>{{ item.locationPath || item.locationName || 'Sin ubicación' }}</dd>
+          </div>
+          <div>
+            <dt>Responsable</dt>
+            <dd>{{ item.currentAssignment?.responsiblePersonName || 'Sin asignar' }}</dd>
+          </div>
+          <div>
+            <dt>Notas</dt>
+            <dd>{{ item.notes || '—' }}</dd>
+          </div>
+          <div>
+            <dt>Creado</dt>
+            <dd>{{ item.createdAtUtc | date: 'medium' }}</dd>
+          </div>
+          <div>
+            <dt>Actualizado</dt>
+            <dd>{{ item.updatedAtUtc | date: 'medium' }}</dd>
+          </div>
         </dl>
 
         @if (item.identifiers.length > 0) {

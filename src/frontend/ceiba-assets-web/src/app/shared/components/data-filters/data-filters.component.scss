@@ -1,20 +1,42 @@
 .filters {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: start;
   gap: 12px;
 }
 
-.search-field {
-  flex: 1 1 260px;
-  max-width: 420px;
-}
-
+.search-field,
 .select-field {
-  flex: 0 1 200px;
+  width: 100%;
+  min-width: 0;
 }
 
 .prefix-icon {
   margin-inline: 12px 4px;
   color: var(--mat-sys-on-surface-variant);
+}
+
+button[matButton] {
+  justify-self: start;
+  align-self: center;
+}
+
+@media (min-width: 600px) {
+  .filters {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .search-field {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 960px) {
+  .filters {
+    grid-template-columns: minmax(280px, 2fr) repeat(auto-fill, minmax(160px, 200px)) auto;
+  }
+
+  .search-field {
+    grid-column: auto;
+  }
 }

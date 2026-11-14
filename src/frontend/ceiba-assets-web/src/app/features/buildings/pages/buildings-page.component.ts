@@ -33,7 +33,11 @@ export interface BuildingWithFloors extends Building {
 export class BuildingsPageComponent {
   private readonly api = inject(BuildingsApi);
 
-  protected readonly columns = ['name', 'code', 'floors', 'actions'];
+  protected readonly columns = ['name', 'floors', 'actions'];
+
+  protected floorsLabel(count: number): string {
+    return count === 1 ? '1 piso' : `${count} pisos`;
+  }
 
   protected readonly buildings = rxResource({
     stream: () =>

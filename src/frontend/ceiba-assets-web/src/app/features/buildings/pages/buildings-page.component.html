@@ -3,7 +3,7 @@
     <div class="page-heading">
       <h1 id="buildings-title" class="page-title">Edificios y pisos</h1>
       <p class="page-subtitle">
-        Torres y sedes de CEIBA con sus pisos. Selecciona un piso para ver sus ubicaciones.
+        Torres y sedes de CEIBA. Selecciona un piso para ver sus ubicaciones.
       </p>
     </div>
   </header>
@@ -26,37 +26,37 @@
         <table mat-table [dataSource]="items" aria-label="Listado de edificios">
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Edificio</th>
-            <td mat-cell *matCellDef="let building">{{ building.name }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="code">
-            <th mat-header-cell *matHeaderCellDef>Código</th>
-            <td mat-cell *matCellDef="let building">{{ building.code }}</td>
+            <td mat-cell *matCellDef="let building">
+              <div class="building-name">{{ building.name }}</div>
+              <div class="building-code">{{ building.code }}</div>
+            </td>
           </ng-container>
 
           <ng-container matColumnDef="floors">
             <th mat-header-cell *matHeaderCellDef>Pisos</th>
             <td mat-cell *matCellDef="let building">
-              <span class="floor-count">{{ building.floors.length }}</span>
-              <span class="floor-links">
-                @for (floor of building.floors; track floor.id) {
-                  <a
-                    class="floor-link"
-                    routerLink="/locations"
-                    [queryParams]="{ buildingId: building.id, floorId: floor.id }"
-                    [attr.aria-label]="
-                      'Ubicaciones del piso ' + floor.levelNumber + ' de ' + building.name
-                    "
-                    >{{ floor.levelNumber }}</a
-                  >
-                }
-              </span>
+              <div class="floors-cell">
+                <span class="floor-meta">{{ floorsLabel(building.floors.length) }}</span>
+                <div class="floor-links">
+                  @for (floor of building.floors; track floor.id) {
+                    <a
+                      class="floor-link"
+                      routerLink="/locations"
+                      [queryParams]="{ buildingId: building.id, floorId: floor.id }"
+                      [attr.aria-label]="
+                        'Ubicaciones del piso ' + floor.levelNumber + ' de ' + building.name
+                      "
+                      >{{ floor.levelNumber }}</a
+                    >
+                  }
+                </div>
+              </div>
             </td>
           </ng-container>
 
           <ng-container matColumnDef="actions">
             <th mat-header-cell *matHeaderCellDef><span class="visually-hidden">Acciones</span></th>
-            <td mat-cell *matCellDef="let building">
+            <td mat-cell *matCellDef="let building" class="actions-cell">
               <a
                 matButton
                 routerLink="/locations"

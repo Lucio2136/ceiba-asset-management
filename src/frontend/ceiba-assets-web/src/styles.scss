@@ -50,17 +50,38 @@ svg.lucide {
   fill: none;
 }
 
+// Iconos Lucide dentro de botones Material: misma línea que el texto.
+.mat-mdc-button .lucide,
+.mat-mdc-outlined-button .lucide,
+.mat-mdc-unelevated-button .lucide,
+.mat-mdc-raised-button .lucide,
+.mat-mdc-icon-button .lucide {
+  display: block;
+  width: 1.125rem;
+  height: 1.125rem;
+  flex-shrink: 0;
+}
+
+.mat-mdc-button > .mdc-button__label,
+.mat-mdc-outlined-button > .mdc-button__label,
+.mat-mdc-unelevated-button > .mdc-button__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
 // Disposición común de las páginas de funcionalidad.
 .page-header {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 16px;
+  gap: 16px 24px;
   margin-block-end: 24px;
 }
 
 .page-heading {
+  flex: 1 1 240px;
   min-width: 0;
 }
 
@@ -78,7 +99,15 @@ svg.lucide {
 .page-actions {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
   gap: 8px;
+  flex: 0 0 auto;
+  margin-inline-start: auto;
+}
+
+.filters {
+  margin-block-end: 16px;
 }
 
 .surface {
@@ -86,6 +115,19 @@ svg.lucide {
   border: 1px solid var(--mat-sys-outline-variant);
   border-radius: var(--mat-sys-corner-medium);
   background: var(--mat-sys-surface);
+}
+
+.surface .mat-mdc-table {
+  width: 100%;
+}
+
+.surface .mat-mdc-header-cell,
+.surface .mat-mdc-cell {
+  vertical-align: top;
+}
+
+.surface .mat-mdc-cell {
+  padding-block: 16px;
 }
 
 .loading-block {

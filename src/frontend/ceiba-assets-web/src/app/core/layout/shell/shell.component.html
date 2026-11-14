@@ -14,14 +14,16 @@
   <span class="spacer"></span>
 
   @if (auth.user(); as user) {
-    <span class="user" data-testid="current-user">
-      <svg lucideUser class="user-icon" aria-hidden="true"></svg>
-      <span class="user-name">{{ user.displayName }}</span>
-    </span>
-    <button matButton type="button" class="logout" (click)="logout()">
-      <svg lucideLogOut></svg>
-      Cerrar sesión
-    </button>
+    <div class="toolbar-end">
+      <span class="user" data-testid="current-user" [attr.title]="user.displayName">
+        <svg lucideUser class="user-icon" aria-hidden="true"></svg>
+        <span class="user-name">{{ user.displayName }}</span>
+      </span>
+      <button matButton type="button" class="logout" (click)="logout()" aria-label="Cerrar sesión">
+        <svg lucideLogOut aria-hidden="true"></svg>
+        <span class="logout-label">Cerrar sesión</span>
+      </button>
+    </div>
   }
 </mat-toolbar>
 

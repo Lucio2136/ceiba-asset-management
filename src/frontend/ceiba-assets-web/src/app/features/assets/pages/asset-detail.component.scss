@@ -13,17 +13,20 @@
 
 .details {
   display: grid;
-  grid-template-columns: max-content 1fr;
-  gap: 8px 24px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px 24px;
   margin: 16px 0 0;
 
   dt {
+    margin: 0 0 4px;
     color: var(--mat-sys-on-surface-variant);
+    font: var(--mat-sys-label-medium);
   }
 
   dd {
     margin: 0;
     overflow-wrap: anywhere;
+    font: var(--mat-sys-body-large);
   }
 }
 
